@@ -1,9 +1,3 @@
-import re
-
-input = [
-    tuple(x for x in line.split(" ")) for line in open("input.txt").read().splitlines()
-]
-
 types = {
     "A": 1,
     "B": 2,
@@ -34,8 +28,18 @@ def getScore2(theirs, score):
         mine = theirs
     return mine + scores[score - 1]
 
-print("Part 1:", sum([getScore(types[theirs], types[mine]) for theirs, mine in input]))
-print("Part 2:", sum([getScore2(types[their], types[mine]) for their, mine in input]))
+
+with open("input.txt") as file:
+
+    part1 = 0
+    part2 = 0
+    for line in file:
+        theirs, mine = line.strip("\n").split(" ")
+        part1 += getScore(types[theirs], types[mine])
+        part2 += getScore2(types[theirs], types[mine])
+
+    print("Part 1:", part1)
+    print("Part 2:", part2)
 
 # solutions, but in single lines
 # print("Part 1:", sum([b + (3 if a == b else (6 if b == (a + 1) or b == (a - 2) else 0)) for a, b in [[int(x), int(y)] for x, y in [re.sub("A|X", "1", re.sub("B|Y", "2", re.sub("C|Z", "3", line))).split(" ") for line in open("input.txt").read().splitlines()]]]))
