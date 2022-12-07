@@ -11,9 +11,6 @@ class Directory:
     def addFile(self, size):
         self.size += size
 
-    def __str__(self) -> str:
-        return self.name
-
 
 part1 = 0
 part2 = 100_000_000
