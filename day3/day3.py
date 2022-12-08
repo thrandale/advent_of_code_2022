@@ -11,7 +11,6 @@ with open("input.txt") as file:
 
         rucksacks.append(line.strip("\n"))
         if len(rucksacks) == 3:
-            print(rucksacks)
             shared = "".join(
                 (set(rucksacks[0]) & set(rucksacks[1]) & set(rucksacks[2]))
             )
