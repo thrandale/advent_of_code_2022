@@ -9,7 +9,7 @@ with open("input.txt") as file:
     rows = 6
     pixels = 40
     charSize = 2
-    CRT = [["  " for _ in range(pixels)] for _ in range(rows)]
+    CRT = ""
     for line in file:
         cmd = line.split()[0]
         V = 0
@@ -23,11 +23,15 @@ with open("input.txt") as file:
             row = cycles // pixels
             pixel = cycles % pixels
 
-            if pixel in range(sprite - 1, sprite + 2):
-                CRT[row][pixel] = "##"
-
-            if pixel == 20:
+            if pixel == 0 and cycles > 0:
+                CRT += "\n"
+            elif pixel == 20:
                 part1 += cycles * X
+
+            if pixel in range(sprite - 1, sprite + 2):
+                CRT += "##"
+            else:
+                CRT += "  "
 
             cycles += 1
             remainingCycles -= 1
@@ -42,6 +46,6 @@ with open("input.txt") as file:
     right = "||"
     border = "=" * (pixels * 2 + len(left) + len(right))
     print(border)
-    for row in CRT:
-        print("|| " + "".join(row) + "||")
+    for row in CRT.splitlines():
+        print(left + row + right)
     print(border)
