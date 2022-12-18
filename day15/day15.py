@@ -38,8 +38,7 @@ with open("input.txt") as file:
         bValues.add(sX + sY - sRange - 1)
 
     """ Part 1 """
-    seenRanges = []
-    seen = set()
+    allRanges = []
 
     # Find the range of points each sensor can see
     for sensor in sensors:
@@ -51,24 +50,23 @@ with open("input.txt") as file:
 
         # get the points that the sensor can see
         newRange = sensor[2] - distFromTarget
-        seenRanges.append((sensor[0] - newRange, sensor[0] + newRange))
+        allRanges.append((sensor[0] - newRange, sensor[0] + newRange))
 
     # Merge overlapping ranges
-    seenRanges = sorted(seenRanges, key=lambda x: x[0])
+    allRanges = sorted(allRanges, key=lambda x: x[0])
     ranges = []
-    for r in ranges:
+    for r in allRanges:
         if not ranges or ranges[-1][1] < r[0]:
             ranges.append(r)
         else:
             ranges[-1] = (min(ranges[-1][0], r[0]), max(ranges[-1][1], r[1]))
 
-    # Add all the points in the ranges to the set of seen points
-    for start, end in seenRanges:
-        seen.update(range(start, end + 1))
+    # Count the number of points that can be seen
+    for r in ranges:
+        part1 += r[1] - r[0] + 1
 
     # Remove any beacons that are on the line
-    for point in beaconsOnLine:
-        seen.discard(point)
+    part1 -= len(beaconsOnLine)
 
     """ Part 2 """
     # Find a point where two of the lines intersect, and can't be seen by any sensors
@@ -84,5 +82,5 @@ with open("input.txt") as file:
                 ):
                     part2 = intersection[0] * 4_000_000 + intersection[1]
 
-    print("Part 1:", len(seen))
+    print("Part 1:", part1)
     print("Part 2:", part2)
